@@ -28,3 +28,23 @@ The included `build.sh` script will download squashfs-tools v4.3, patch the sour
 ```bash
 $ ./build.sh
 ```
+
+Running in Docker
+=================
+
+Building container:
+
+```bash
+docker build -t sasquatch .
+```
+
+Simple wrapper script to be put into `$HOME/bin` (included in `$PATH`):
+
+```bash
+#!/bin/sh
+docker run --interactive --tty --rm \
+    --volume "$(realpath "$PWD"):/wd" --workdir /wd \
+    sasquatch "$@"
+```
+
+This setup works on Docker for Desktop 3.1.0 on MacOSX. The `realpath` comes from GNU coreutils - e.g. `brew install coreutils`.
